@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DivyaDrishti Socket Test</title>
+</head>
+
+<body>
+
+<h1>DivyaDrishti Live Telemetry</h1>
+
+<pre id="output">Waiting for telemetry...</pre>
+
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+
+<script>
+
+const socket = io("http://localhost:5000");
+
+const output = document.getElementById("output");
+
+socket.on("connect", () => {
+
+    output.textContent =
+        "Connected to DivyaDrishti backend.\nWaiting for telemetry...";
+
+});
+
+
+socket.on("telemetry_update", (data) => {
+
+    output.textContent =
+        JSON.stringify(data, null, 2);
+
+});
+
+
+socket.on("disconnect", () => {
+
+    output.textContent =
+        "Disconnected from backend.";
+
+});
+
+</script>
+
+</body>
+</html>
