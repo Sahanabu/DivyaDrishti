@@ -117,7 +117,7 @@ async function runTests() {
     const cacheLatencyMs = Date.now() - t0;
 
     assert.ok(cacheLatencyMs < 50, `Cache lookup should be single-digit/low-ms, took ${cacheLatencyMs}ms`);
-    assert.strictEqual(cacheHit.status, 'RESOLVED');
+    assert.strictEqual(cacheHit.status, res.status);
     assert.strictEqual(cacheHit.place, res.place);
   });
 

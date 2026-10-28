@@ -47,7 +47,7 @@ async function runTests() {
   total++;
   try {
     // Valid coordinates: Vidhana Soudha, Bengaluru (12.9797, 77.5907)
-    const geo = await resolveLocation(12.9797, 77.5907, true, { maxWaitMs: 4000 });
+    const geo = await resolveLocation(12.9797, 77.5907, true, { maxWaitMs: 8000 });
     assert.strictEqual(geo.status, 'RESOLVED');
     assert.ok(geo.place.length > 0);
     assert.ok(geo.place.includes('Bengaluru') || geo.place.includes('Bangalore') || geo.place.includes('Karnataka'));

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background>
+        <color android:color="#090D16"/>
+    </background>
+    <foreground>
+        <inset
+            android:drawable="@drawable/app_logo"
+            android:inset="14%"/>
+    </foreground>
+    <monochrome>
+        <inset
+            android:drawable="@drawable/app_logo"
+            android:inset="14%"/>
+    </monochrome>
+</adaptive-icon>

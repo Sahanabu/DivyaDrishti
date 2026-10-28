@@ -5,6 +5,8 @@ const { getIo, onClientConnected } = require('../sockets');
 const { resolveLocation } = require('../services/geocodingService');
 const { estimateLocation, getVerifiedDeviceLocation } = require('../services/wifiLocationService');
 const { triggerEmergencyAlert } = require('./emergencyController');
+const { recordSafetyEvent, getLiveSafetyScore } = require('../services/aiService');
+const Trip = require('../models/Trip');
 
 let latestPrediction = {
   risk: 'LOW',
@@ -45,6 +47,7 @@ const startWatchdog = () => {
         if (io) io.emit('force_logout');
       }
     }, 1500);
+    if (connectionTimeout.unref) connectionTimeout.unref();
   }
 };
 startWatchdog();
@@ -59,9 +62,23 @@ const setPrediction = async (req, res) => {
     
     latestPrediction = { risk, event };
 
+    // Record safety penalty if incident detected
+    if (event && event !== 'NORMAL') {
+      recordSafetyEvent(event, risk);
+    }
+    const currentSafety = getLiveSafetyScore();
+
     const io = getIo();
     if (io) {
-      io.emit('ai_prediction', { risk, event, timestamp, videoClipUrl: videoClipUrl || '' });
+      io.emit('ai_prediction', {
+        risk,
+        event,
+        confidence,
+        timestamp,
+        videoClipUrl: videoClipUrl || '',
+        safetyScore: currentSafety.score
+      });
+      io.emit('safety_score_update', currentSafety);
     }
 
     // Trigger high-priority 10-second crash confirmation popup if AI pipeline predicts IMPACT
@@ -236,6 +253,7 @@ const addTelemetry = async (req, res) => {
     await telemetry.save();
 
     // Broadcast via Socket.IO
+    const currentSafety = getLiveSafetyScore();
     const broadcastData = {
        ...telemetry.toObject(),
        latitude: cleanLat,
@@ -244,11 +262,37 @@ const addTelemetry = async (req, res) => {
        locationStatus: finalLocationStatus,
        speed: raw.speed || 0,
        acceleration: raw.accMagnitude,
-       mq3Value: raw.mq3
+       mq3Value: raw.mq3,
+       safetyScore: currentSafety.score
     };
 
     if (io) {
       io.emit('telemetry_update', broadcastData);
+    }
+
+    // Auto-record active trip breadcrumbs
+    if (cleanLat !== 0 && cleanLon !== 0) {
+      Trip.findOne({ status: 'ACTIVE' }).sort({ createdAt: -1 }).then((trip) => {
+        if (trip) {
+          trip.breadcrumbs.push({
+            latitude: cleanLat,
+            longitude: cleanLon,
+            speed: Number(raw.speed) || 0,
+            acceleration: Number(raw.accMagnitude) || 1.0,
+            timestamp: new Date()
+          });
+          trip.endLocation = { latitude: cleanLat, longitude: cleanLon, placeName: resolvedPlace };
+          trip.safetyScore = currentSafety.score;
+          trip.save().catch(() => {});
+        }
+      }).catch(() => {});
+    }
+
+    // Check alcohol & harsh braking
+    if (raw.mq3 && raw.mq3 > 400) {
+      recordSafetyEvent('ALCOHOL_WARNING');
+    } else if (raw.accMagnitude && raw.accMagnitude >= 2.8 && raw.accMagnitude < 25.0) {
+      recordSafetyEvent('HARD_BRAKE');
     }
 
     // Trigger high-priority 10-second crash confirmation popup if ESP32 detects collision/impact

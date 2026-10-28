@@ -1,0 +1,258 @@
+=== ROW 0: PART - B: PROJECT DESCRIPTION ===
+PART - B: PROJECT DESCRIPTION
+
+=== ROW 1:  ===
+Background and Need of the Project: 
+1. Background:
+Road accidents caused by rider fatigue, delayed reactions, unsafe driving conditions, and unexpected road hazards remain significant road-safety concerns. DivyaDrishti is an AI- and IoT-based smart helmet system designed to improve rider safety through real-time monitoring, intelligent hazard detection, and emergency assistance.
+2. Existing Scenario:
+Conventional helmets primarily provide physical head protection but generally lack intelligent monitoring and emergency communication capabilities. Some existing smart helmets offer individual features such as GPS tracking, alcohol detection, or crash alerts. However, integrating rider condition monitoring, road-object detection, accident detection, location tracking, and automated emergency notifications into a unified, cost-effective system remains a practical challenge.
+3. Problem Statement:
+Motorcycle riders may experience drowsiness, encounter hazardous road conditions, or become involved in accidents without receiving timely warnings or obtaining immediate assistance. The absence of an integrated, real-time safety system can delay accident identification, location sharing, and emergency response.
+4. Need for the Project:
+DivyaDrishti aims to develop an intelligent safety system integrating AI-based drowsiness detection, computer-vision-based road-object detection, sensor-assisted crash detection, GPS location tracking, and IoT-enabled emergency alerts. Machine-learning techniques will analyse relevant sensor and vision data to assess potential risks and support timely warnings. The system will also facilitate location sharing and notifications to designated family members during emergencies, helping improve rider awareness and response time.
+5. Beneficiaries:
+The primary beneficiaries are motorcycle riders, particularly daily commuters, students, delivery personnel, and long-distance travellers. Family members, emergency responders, traffic-safety authorities, and public transportation-safety initiatives may also benefit from faster accident notification, improved location accessibility, and enhanced road-safety awareness.
+
+
+=== ROW 2:  ===
+Review of Existing Work:
+1. EXISTING TECHNOLOGIES
+Existing smart helmet technologies use accelerometers, gyroscopes, GPS, GSM, alcohol sensors, and IoT modules to monitor riders, detect accidents, and transmit emergency alerts. Computer vision and artificial intelligence are also used for driver drowsiness detection and road-object recognition. Machine-learning techniques can analyse sensor readings and visual features to identify potentially unsafe conditions. However, integrating these technologies into a single, affordable, real-time system remains challenging.
+2. COMMERCIAL PRODUCTS
+Commercial products such as the Forcite smart helmet platform and Livall smart helmets demonstrate the use of connected technologies for rider communication, navigation, and safety-related alerts. These products illustrate the potential of integrating electronics into helmets. However, product features vary, and advanced AI-based rider monitoring, road-scene analysis, and configurable emergency-response functions may not all be available together in an affordable solution.
+3. RESEARCH PAPERS
+The following research works are relevant to this project:
+Applications of Smart Helmet in Applied Sciences: A Systematic Review (2021): Reviews smart helmet applications involving accident detection, alcohol sensing, drowsiness monitoring, and environmental sensing.
+Trends in Smart Helmets With Multimodal Sensing for Health and Safety: Scoping Review (2022): Examines sensor integration, health monitoring, hazard detection, and emergency alerting. It highlights challenges in feasibility testing and practical implementation.
+Technologies for Detecting and Monitoring Drivers' States: A Systematic Review (2024): Reviews sensor-based and vision-based approaches for detecting fatigue and monitoring driver conditions.
+These studies establish the potential of intelligent monitoring while highlighting the importance of reliable detection and real-world validation.
+4. PATENTS
+The patent Integrated Smart Helmet and Methods and Systems of Controlling Smart Helmet (WO2020217089A1) describes crash detection using accelerometers and gyroscopes, location-based emergency notifications, and blind-spot monitoring. Other intelligent helmet patents also explore rider monitoring and connected safety systems. These inventions demonstrate that individual smart helmet features are established research areas.
+5. EXISTING SOLUTIONS, SHORTCOMINGS AND RESEARCH GAPS
+Existing solutions generally focus on individual functions, such as crash detection, GPS tracking, alcohol detection, or emergency messaging. Important challenges include false crash alerts, unreliable detection under varying environmental conditions, hardware cost, power consumption, and limited real-world testing.
+Research gap: DivyaDrishti aims to integrate AI-based drowsiness detection, real-time road-object detection, sensor-assisted crash detection, GPS tracking, and emergency notifications into a unified rider-safety platform. Its proposed contribution is the coordinated analysis of rider condition and road environment alongside emergency-response functionality, with emphasis on affordability, modular design, and practical validation.
+
+=== ROW 3:  ===
+Problem Statement:
+Motorcycle riders are vulnerable to road accidents caused by drowsiness, delayed reactions, unexpected road hazards, and loss of vehicle control. Conventional helmets primarily provide physical head protection but do not actively monitor the rider's condition or surrounding road environment. Existing safety solutions often focus on individual functions, such as crash detection, GPS tracking, or emergency alerts, rather than providing coordinated rider monitoring and hazard awareness. Furthermore, delays in identifying accidents and communicating the rider's location can hinder timely emergency assistance.
+DivyaDrishti aims to address this problem by developing an AI- and IoT-based smart helmet system that integrates drowsiness detection, real-time road-object detection, sensor-assisted crash detection, GPS location tracking, and emergency notifications. The system will analyse rider and environmental data to identify potential risks, issue timely warnings, and notify designated family members with location information when a suspected emergency occurs. The primary challenge is to achieve reliable detection, low response latency, and affordable implementation under practical riding conditions.
+
+
+=== ROW 4:  ===
+Objectives:
+● To design an AI- and IoT-based smart helmet architecture integrating rider monitoring, road hazard detection, crash detection, GPS tracking, and emergency communication.
+● To develop a computer-vision-based drowsiness detection module and evaluate its classification accuracy, targeting at least 85% accuracy on a labelled test dataset.
+● To implement a real-time road-object detection module using YOLO-based computer vision to identify relevant objects such as vehicles, pedestrians, and motorcycles, and evaluate its detection performance using precision and recall.
+● To fabricate a functional smart helmet prototype integrating an ESP32 microcontroller, suitable sensors, GPS, and communication modules for rider monitoring and emergency assistance.
+● To develop a sensor-assisted crash detection and emergency notification mechanism that shares the rider’s GPS coordinates with designated emergency contacts when a suspected accident is detected.
+● To evaluate and validate the integrated prototype under controlled test scenarios by measuring detection accuracy, response time, false alerts, GPS performance, notification delivery success, power consumption, and overall implementation cost.
+
+
+=== ROW 5:  ===
+Innovation / Novelty:
+1. WHAT IS NEW?
+DivyaDrishti proposes an integrated AI- and IoT-based smart helmet system that combines rider drowsiness monitoring, real-time road-object detection, sensor-assisted crash detection, GPS tracking, and emergency notifications. Its key innovation is the coordinated use of rider-condition data and road-environment information to support timely safety warnings and emergency response. The system also aims to provide a modular, affordable prototype using an ESP32, appropriate sensors, and computer-vision-based AI modules.
+An additional feature is an automated incident video capture and sharing mechanism that maintains a rolling 10-second video buffer and exports an incident clip when a suspected crash is detected. The clip can be uploaded to cloud storage, with a shareable link included in emergency notifications alongside the rider's GPS location. DivyaDrishti also incorporates a QR-code-based emergency information portal attached to the helmet, enabling bystanders and first responders to access essential rider information and designated emergency contact details without installing an application.
+2. HOW IS IT DIFFERENT FROM EXISTING WORK?
+Many existing smart helmet solutions focus on individual functions, such as accident detection, location tracking, alcohol detection, or emergency messaging. DivyaDrishti seeks to integrate multiple safety functions into a unified platform. It combines camera-based road-scene analysis and drowsiness detection with sensor-based crash identification, allowing rider condition and surrounding hazards to be monitored within the same system. Its proposed emergency-response mechanism will transmit GPS location information and notifications to designated family members when a suspected accident is detected.
+Unlike a system that relies only on accident alerts and location sharing, DivyaDrishti additionally aims to provide a short incident video clip for contextual information and a QR-accessible emergency portal for quick access to rider details and emergency contacts. The video-sharing feature supports digital incident evidence, while the QR portal provides an additional access method that does not depend on the helmet's electronic components being operational. Its modular architecture is intended to support testing, upgrades, and cost-conscious implementation.
+3. WHY IS IT INNOVATIVE?
+The innovation lies in the practical integration of AI-based perception, IoT sensing, and emergency communication into a single rider-safety solution. Rather than relying exclusively on a crash event to initiate assistance, DivyaDrishti aims to identify certain risks before an incident and respond to suspected accidents afterwards. The prototype will be evaluated for detection performance, response time, false alerts, notification reliability, power consumption, and cost under controlled test conditions.
+The integration of automated incident-video sharing and a QR-based emergency information portal strengthens the emergency-response approach by combining real-time alerts, location information, visual incident context, and readily accessible rider details. The QR code can remain accessible even if the electronic system loses power, provided the printed code and associated online portal remain available. This approach could contribute to the development of accessible, intelligent safety systems for everyday motorcycle riders.
+
+
+=== ROW 6:  ===
+Proposed Methodology:
+1. OVERALL METHODOLOGY
+The proposed DivyaDrishti system follows a modular, four-layer architecture integrating embedded hardware, artificial intelligence, backend services, and a real-time monitoring dashboard.
+Initially, an ESP32 microcontroller will collect sensor data from the MPU6050 inertial measurement unit (IMU), L86-M33 GPS module, MQ-3 alcohol sensor, and MFRC522 RFID reader. Rider information and safety status will be displayed on an SH1106 OLED, with a buzzer providing local alerts. The ESP32 will transmit sensor telemetry to the backend through Wi-Fi.
+Simultaneously, a camera connected to a laptop will supply video frames to a Python-based AI pipeline. YOLOv8n will detect road objects, computer vision techniques using HLS colour analysis and Sobel edge detection will identify lane boundaries and potential lane deviation, and MediaPipe facial landmarks with Eye Aspect Ratio (EAR) analysis will support drowsiness detection.
+The extracted visual features will be combined with hardware telemetry to form a 12-dimensional feature vector. A Random Forest classifier will analyse these features to classify driving events and estimate risk levels. Predictions will be transmitted to the Node.js backend, which stores system data in MongoDB Atlas and streams live updates to a React dashboard. When an emergency condition is detected, the system will initiate a cancellable SOS countdown and send GPS-linked alerts through SMS and push notifications.
+2. BLOCK DIAGRAM / FLOW CHART
+
+3. SYSTEM ARCHITECTURE
+
+The system consists of four layers:
+Layer 1 – Hardware and Embedded System: An ESP32-based helmet unit interfaces with the MPU6050, L86-M33 GPS, MQ-3 alcohol sensor, MFRC522 RFID reader, SH1106 OLED, and piezoelectric buzzer. Arduino C++ firmware collects sensor readings, manages rider authentication, detects threshold-based impact events, displays system status, and transmits JSON telemetry through HTTP requests over Wi-Fi.
+Layer 2 – AI and Computer Vision: A Python-based edge-computing pipeline runs on a laptop and processes camera frames. YOLOv8n identifies safety-relevant road objects, HLS and Sobel-based polynomial lane detection analyses lane boundaries, and MediaPipe calculates eye-related features for drowsiness monitoring. Sensor and vision features are combined and analysed by a Random Forest classifier. FastAPI provides the video-streaming and incident-clip export interfaces.
+Layer 3 – Backend and Database: Node.js and Express manage incoming sensor telemetry, AI predictions, authentication sessions, and emergency events. Socket.IO broadcasts real-time updates, while MongoDB Atlas stores telemetry readings, predictions, session information, and emergency logs.
+Layer 4 – Dashboard and Emergency Response: A React-based dashboard displays GPS location using Leaflet, historical telemetry using Recharts, live camera footage, rider status, and AI predictions. The emergency module provides a cancellable SOS countdown and integrates Twilio SMS and NTFY.SH push notifications with GPS coordinates and incident-video links.
+4. DESIGN APPROACH
+The design will follow a modular, incremental implementation approach.
+Hardware development: Interface the sensors with the ESP32, implement non-blocking firmware tasks, and verify sensor readings, GPS coordinates, RFID authentication, OLED display operation, and buzzer alerts.
+AI module development: Implement the YOLOv8n object detector, lane detection using HLS colour space and Sobel gradients with polynomial fitting, and MediaPipe-based drowsiness detection.
+Machine-learning integration: Construct a 12-dimensional feature vector from visual features and hardware telemetry. Train and validate Random Forest models for driving-event classification and risk stratification using the synthetic dataset described in the project report.
+Backend and dashboard development: Integrate ESP32 telemetry and AI predictions through REST APIs, persist the data in MongoDB Atlas, and display live system information through the React dashboard using Socket.IO.
+Emergency-response integration: Configure crash and prolonged eye-closure event handling, a 10-second cancellable SOS countdown, incident-video export, and SMS and push notifications containing GPS location information.
+System integration: Combine the hardware, AI, backend, and dashboard modules and verify end-to-end operation before performing controlled scenario-based testing.
+5. EXPERIMENTAL PLAN
+The prototype will be evaluated through component-level, software-level, integration, and controlled scenario-based testing.
+Hardware testing: Verify MPU6050 sensor communication and motion readings, GPS coordinate acquisition, MQ-3 response, RFID card identification, OLED rendering, and buzzer operation.
+Object-detection testing: Evaluate YOLOv8n using labelled images and video clips containing vehicles, motorcycles, pedestrians, and other supported object classes. Measure precision, recall, and detection performance.
+Lane-detection testing: Use recorded road videos or a controlled test lane with visible markings. Evaluate lane identification, deviation detection, and false warnings under different lighting and marking conditions.
+Drowsiness testing: Test the MediaPipe-based module using eyes-open, eyes-closed, and blinking scenarios. Measure classification performance and detection response time.
+Machine-learning evaluation: Train the Random Forest models using the report's synthetic driving dataset and evaluate them using a held-out test set. Record accuracy, precision, recall, F1-score, and confusion matrices. Synthetic-data performance will be reported separately from real-world performance.
+Integration testing: Verify communication between the ESP32, AI pipeline, backend, MongoDB Atlas, and React dashboard. Check telemetry updates, prediction delivery, GPS-map updates, and emergency-event processing.
+Emergency-response testing: Simulate crash events and prolonged eye closure in controlled conditions. Measure false alerts, SOS countdown operation, GPS-link availability, notification-delivery success, incident-video export, and end-to-end response time.
+Performance assessment: Measure video-processing frame rate, processing latency, notification latency, power consumption, connectivity reliability, and overall prototype cost.
+Testing will initially use recorded data, simulation, and controlled stationary or closed-area scenarios. Actual accidents will not be induced, and unsafe public-road testing will be avoided.
+6. SOFTWARE AND HARDWARE TO BE USED
+Hardware
+ESP32 WROOM-32 development board – embedded processing and Wi-Fi communication.
+MPU6050 six-axis IMU – acceleration, angular motion, and impact-related measurements.
+Quectel L86-M33 GPS module – geographical location tracking.
+MQ-3 alcohol sensor – alcohol-related sensor readings.
+MFRC522 RFID reader and compatible cards – rider authentication.
+SH1106 1.3-inch OLED display – rider and system-status information.
+Piezoelectric buzzer – audible safety warnings.
+USB webcam or compatible camera – real-time video acquisition.
+Laptop with a suitable processor, memory, and camera interface – AI edge processing and application hosting.
+Regulated power supply, connecting wires, helmet mounting arrangements, and supporting electronic components.
+Software, Frameworks, and Libraries
+Embedded firmware: Arduino IDE, ESP32 Arduino Core, Arduino C++, ArduinoJson, TinyGPSPlus, MFRC522, and Adafruit SH110X.
+Computer vision and AI: Python, OpenCV, Ultralytics YOLOv8n, MediaPipe, NumPy, and scikit-learn.
+AI server: FastAPI and Uvicorn for API services and video streaming.
+Backend: Node.js, Express.js, and Socket.IO.
+Database: MongoDB Atlas for telemetry, predictions, session records, and emergency logs.
+Frontend: React.js, Leaflet, React-Leaflet, Recharts, and Tailwind CSS.
+Emergency communication: Twilio SMS, NTFY.SH push notifications, GPS-based map links, and incident-video export.
+Communication protocols: I²C for compatible sensors, UART for GPS, SPI for RFID, HTTP/REST for telemetry and predictions, and Socket.IO for real-time dashboard updates.
+The system will be developed and evaluated using a combination of embedded hardware tests, AI performance measurements, integration tests, and controlled simulations to assess feasibility, reliability, and suitability for further improvement.
+
+=== ROW 7:  ===
+Expected Deliverables: 
+● Working Smart Helmet Prototype: An ESP32-based prototype integrating MPU6050, GPS, MQ-3 alcohol sensor, RFID reader, OLED display, and buzzer for rider monitoring and safety alerts.
+● AI-Based Safety Software: A Python-based AI system incorporating YOLOv8n road-object detection, lane detection, MediaPipe-based drowsiness detection, and Random Forest-based driving-event classification.
+● Web-Based Monitoring Dashboard: A React.js dashboard displaying live GPS location, sensor telemetry, road-object detections, rider status, AI predictions, and historical data visualizations.
+● Backend and Database System: A Node.js and Express backend integrated with MongoDB Atlas and Socket.IO for data storage, authentication, and real-time communication.
+● Automated Emergency Alert System: An emergency-response module with a cancellable SOS countdown and SMS and push notifications containing the rider's GPS location.
+● Incident Video Capture and Sharing Module: A rolling 10-second video buffer that exports an incident clip following a suspected crash and supports cloud hosting and sharing through an emergency notification link.
+● QR-Based Emergency Information Portal: A helmet-mounted QR code linking to an online emergency portal containing essential rider information and designated emergency contact details.
+
+
+=== ROW 8:  ===
+Expected Outcomes and Impact:
+TECHNICAL
+The project is expected to deliver an integrated AI- and IoT-based smart helmet prototype combining rider drowsiness detection, road-object detection, lane-deviation monitoring, alcohol sensing, sensor-assisted crash detection, and GPS tracking. A Random Forest model will analyse combined sensor and vision features to classify driving events and assess risk. The system will also provide a real-time web dashboard, automated emergency notifications, incident-video capture and sharing, and a QR-based emergency information portal.
+SOCIAL
+The project aims to improve rider safety awareness and support faster emergency communication following suspected accidents. GPS-linked notifications can help family members locate a rider, while the QR-based emergency portal can provide bystanders and first responders with essential rider information and emergency contact details. These features may be particularly useful for students, daily commuters, delivery riders, and long-distance travellers.
+ENVIRONMENTAL
+The project will focus on reusing and responsibly integrating electronic components into a functional safety prototype. A modular design can support component replacement and future upgrades rather than requiring complete system replacement. The prototype's environmental impact will depend on its power consumption, component lifespan, and responsible disposal of electronic waste.
+ECONOMIC
+The project aims to demonstrate a cost-conscious smart helmet solution using commercially available sensors, an ESP32 microcontroller, and software-based AI processing. The modular approach may reduce development and maintenance costs and provide a foundation for future affordable rider-safety products. The final prototype cost will be documented during evaluation.
+INDUSTRIAL
+The proposed system may support further development in intelligent transportation systems, connected vehicle safety, embedded IoT devices, computer vision, and emergency-response technologies. Its modular architecture could be adapted for further research or pilot projects involving fleet operators, delivery services, and two-wheeler safety solution providers, subject to practical validation.
+ACADEMIC
+The project will provide practical experience in embedded systems, sensor integration, computer vision, machine learning, full-stack web development, database management, and real-time communication. The expected academic outputs include a working prototype, documented system architecture, source code, controlled test results, performance evaluation, and project documentation that can support future research and improvements.
+POTENTIAL USERS
+The potential users include motorcycle and scooter riders, college students, daily commuters, delivery personnel, long-distance travellers, family members, fleet operators, and road-safety organisations. Emergency responders may also benefit from accessible rider information and location details when these are available through the system. Wider adoption would require further reliability, usability, safety, and field testing.
+
+
+=== ROW 9:  ===
+Relevance:
+Tick wherever applicable
+☑	SDGs (Sustainable Development Goals)
+☑	Karnataka Priority Sector
+□	Rural Development
+□	MSME
+□	Agriculture
+□	Healthcare
+□	Water
+□	Environment
+□	Climate
+□	Manufacturing
+☑	Smart Cities
+☑	Digital India
+□	Startup
+□	Women Empowerment
+☑	Others (Please Specify):    ROAD SAFETY, INTELLIGENT TRANSPORTATION SYSTEMS (ITS), ARTIFICIAL INTELLIGENCE (AI), INTERNET OF THINGS (IoT), AND EMERGENCY RESPONSE TECHNOLOGY.
+                                  
+
+=== ROW 10:  ===
+Work Plan (Please specify the month and tick )
+	
+
+=== ROW 11:  ===
+Facilities Available: 
+Please mention the details of the available facilities under each category. If any facility is not available in your institution, please enter “NONE”.
+
+
+
+
+=== ROW 12:  ===
+Major Requirements for the Project:
+1. HARDWARE
+Microcontroller: ESP32 WROOM-32 development board.
+Edge AI Computer: Raspberry Pi 5 (8 GB RAM preferred) or compatible Raspberry Pi board.
+Camera Modules: Raspberry Pi Camera Module or compatible CSI camera; USB webcam for development and testing.
+Motion Sensor: MPU6050 accelerometer and gyroscope.
+GPS Module: Quectel L86-M33 GPS/GNSS module.
+Alcohol Sensor: MQ-3 alcohol sensor.
+Rider Authentication: MFRC522 RFID reader and RFID cards.
+Display and Alerts: SH1106 OLED display and piezoelectric buzzer.
+Power Supply: Rechargeable battery, voltage regulators, and suitable power adapters.
+Supporting Hardware: MicroSD card for Raspberry Pi, camera ribbon cable, breadboard or PCB, jumper wires, connectors, and mounting components.
+2. SOFTWARE
+Arduino IDE and ESP32 Arduino Core.
+Raspberry Pi OS.
+Python and OpenCV.
+Ultralytics YOLOv8n for road-object detection.
+MediaPipe for drowsiness detection.
+scikit-learn for Random Forest classification.
+FastAPI and Uvicorn for AI services.
+Node.js, Express.js, and Socket.IO for backend communication.
+React.js for the monitoring dashboard.
+MongoDB Atlas for data storage.
+Leaflet and Recharts for GPS mapping and data visualisation.
+Twilio SMS and NTFY.SH for emergency notifications.
+3. CONSUMABLES
+Electronic components and spare sensor modules.
+Jumper wires, connectors, solder, and heat-shrink tubing.
+Perfboard or PCB and electrical insulation materials.
+Camera mounting brackets, enclosures, and cable-management materials.
+Helmet mounting accessories and fastening materials.
+4. FIELD STUDIES
+Collection of representative road-scene video samples for AI testing.
+Controlled testing of drowsiness detection, lane detection, and road-object recognition.
+Safe simulation of crash-detection events and verification of GPS-based emergency notifications.
+Internet connectivity for dashboard communication and notification testing.
+
+
+=== ROW 13:  ===
+Budget Estimate (Remove whichever is not relevant for the project):
+The budget specified in the Google Form must align with the amounts indicated in the project proposal. If no cost is associated with a subhead, indicate Rs. 0/-.
+
+Important Note
+KSCST provides only a modest financial grant for projects recommended by the Expert Committee. The sanctioned financial assistance shall be in the range and maximum up to ₹10,000 per project (or such amount as may be decided by KSCST from time to time). Students and institutions are encouraged to utilize available laboratory facilities and institutional resources. Any expenditure beyond the sanctioned assistance shall be borne by the institution and/or the project team.
+
+=== ROW 14:  ===
+References:
+Use IEEE / APA format.
+(References: Cite all books, journal articles, conference papers, standards, reports, patents, and websites using either the IEEE or APA (7th Edition) referencing style consistently throughout the proposal. All in-text citations must correspond to the references listed at the end of the proposal.)
+Minimum 5 references.
+Preferably include
+Recent journal papers
+Conference papers
+Standards
+Government reports
+Books
+Patents
+
+=== ROW 15:  ===
+Processing Fee Payment Details:
+Payment Details:
+Mode of Payment:  UPI  NEFT
+Transaction / UTR / Reference Number: 
+Date of Payment: ____ / ____ / ____
+Amount Paid: ₹1,180/-
+Name of Account Holder: 
+Name of Bank (for NEFT): 
+UPI ID Used: 
+Attachment:
+ Copy of UPI Payment Receipt / NEFT Transaction Receipt enclosed.
+
+=== ROW 16:  ===
+Student Details with Signature:
+
+

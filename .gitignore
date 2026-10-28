@@ -1,0 +1,34 @@
+```gitignore
+# Android build & cache
+.gradle/
+build/
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+
+# Generated incident recordings (keep local; do not push to GitHub)
+backend/public/clips/*.mp4
+
+# Node.js dependencies
+node_modules/
+dashboard/node_modules/
+
+# Dashboard generated build output
+dashboard/dist/
+
+# Python cache
+__pycache__/
+*.pyc
+ai/__pycache__/
+ai/vision/__pycache__/
+
+# Environment variables
+.env
+
+# Temporary generated video
+temp_helmet_splash.mp4
+```

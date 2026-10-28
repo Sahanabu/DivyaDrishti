@@ -1,0 +1,71 @@
+Paragraphs: 66, Tables: 12
+Keywords: Keywords (5–8): ARTIFICIAL INTELLIGENCE, INTERNET OF THINGS (IOT), SMART HELMET, COMPUTER VISION, DRIVER DROWSINESS DETECTION, LANE DEPARTURE DETECTION, SENSOR FUSION, EMERGENCY RESPONSE
+
+=== ROW 1 (Background): ===
+Background and Need of the Project:
+1. Background: Motorized two-wheelers represent the primary mode of personal transport in India, accounting for over 70% of total vehicular volume. According to the official Ministry of Road Transport and Highways (MoRTH) report Road Accidents in India 2022 (publi...
+
+=== ROW 3 (Problem): ===
+Problem Statement:
+Motorcycle riders face severe risks from operator fatigue, lane deviation, alcohol presence, and high-energy collisions. Existing protective equipment remains purely passive, while available research prototypes address isolated sensing functions that suffer from frequent false ala...
+
+=== ROW 4 (Objectives): ===
+Objectives:
+● To maintain and refine the distributed AIoT prototype architecture, interfacing an ESP32 helmet unit (MPU6050 IMU, Quectel L86-M33 GPS, MQ-3 gas sensor, MFRC522 RFID, SH1106 OLED, buzzer) with a companion edge computing node running YOLOv8n object detection, polynomial lane tracking, a...
+
+=== ROW 5 (Novelty): ===
+Innovation / Novelty:
+1. WHAT IS NEW?
+DivyaDrishti implements an edge-to-cloud framework that pairs localized microcontroller sensing on the helmet with computer vision on an edge node to support proactive hazard warnings and post-incident response. Specific features include a rolling 250-frame circ...
+
+Methodology paras: 57, p7 drawing: True, p9 drawing: True
+
+Work Plan:
+  Activity | Dec 2026 | Jan 2027 | Feb 2027 | Mar 2027 | Apr 2027
+  Baseline hardware testing & calibration (MPU6050, raw MQ-3, GPS) | ✔️ |  |  |  | 
+  Safe empirical data collection (stationary seated & recorded road video) | ✔️ | ✔️ |  |  | 
+  Model retraining, feature evaluation & Random Forest tuning |  | ✔️ | ✔️ |  | 
+  False-alert characterization & threshold testing (bench vibration, head turns) |  |  | ✔️ | ✔️ | 
+  Emergency notification pipeline & QR portal evaluation (SMS, video export) |  |  |  | ✔️ | ✔️
+  Documentation, final report, synopsis compilation & poster presentation |  |  |  |  | ✔️
+
+Facilities:
+  1. Laboratory | Available (Department of CSE Computer Laboratory with desktop PCs and campus network)
+  2. Equipment | Standard desktop workstations available; specialized dedicated GPU systems: NONE (Subject to departmental confirmation)
+  3. Software | Available (Python 3.10+, Arduino IDE 2.x, VS Code, Git, Node.js, modern web browsers)
+  4. Instruments | Standard digital multimeters and USB serial cables available; calibrated test rigs or impact analyzers: NONE
+  5. Workshop | Basic mechanical mounting aids; institutional fabrication/workshop services: NONE (Subject to college confirmation)
+  6. Institutional facilities | Campus network and departmental seminar halls available; 24/7 power backup: Subject to college confirmation
+
+=== ROW 12 (Requirements): ===
+Major Requirements for the Project:
+1. HARDWARE
+Microcontroller: Espressif ESP32 WROOM-32 development board.
+Inertial Measurement Unit: InvenSense MPU6050 6-axis accelerometer and gyroscope.
+GPS Module: Quectel L86-M33 GNSS receiver module with integrated patch antenna.
+Alcohol Gas Sensor: MQ-3 anal...
+
+Budget:
+  Item | Estimated Cost (₹)
+  Equipment / Components | 0
+  Consumables | 1200
+  Fabrication | 1000
+  Software / Cloud Services | 1500
+  Field Survey / Data Collection | 1500
+  Testing / Analysis | 1000
+  Miscellaneous | 800
+  Total | 7000
+
+=== ROW 14 (References): ===
+References:
+[1] Ministry of Road Transport and Highways, Government of India, "Road Accidents in India 2022," New Delhi, India: Transport Research Wing, Oct. 2023. [Online]. Available: https://morth.nic.in/sites/default/files/RA_2022_30_Oct.pdf
+[2] World Health Organization, "Global Status Report on Road Safety 2023," World Health Organization, Geneva, Switzerland, Tech. Rep. ISBN 978-92-4-008651-7, Dec. 2023. [Online]. Available: https://www.who.int/publications/i/item/9789240086517
+[3] Y. Choi and Y. Kim, "Applications of Smart Helmet in Applied Sciences: A Systematic Review," Applied Sciences, vol. 11, no. 11, Art. no. 5039, May 2021. doi: 10.3390/app11115039.
+[4] P. Lee, H. Kim, M. S. Zitouni, A. Khandoker, H. F. Jelinek, L. Hadjileontiadis, U. Lee, and Y. Jeong, "Trends in Smart Helmets With Multimodal Sensing for Health and Safety: Scoping Review," JMIR mHealth and uHealth, vol. 10, no. 11, Art. no. e40797, Nov. 2022. doi: 10.2196/40797.
+[5] M. S. Al-Quraishi, S. S. A. Ali, M. Al-Qurishi, T. B. Tang, and S. Elferik, "Technologies for Detecting and Monitoring Drivers' States: A Systematic Review," Heliyon, vol. 10, no. 20, Art. no. e39592, Oct. 2024. doi: 10.1016/j.heliyon.2024.e39592.
+[6] T. Soukupová and J. Čech, "Real-Time Eye Blink Detection using Facial Landmarks," in Proc. 21st Computer Vision Winter Workshop (CVWW), Rimske Toplice, Slovenia, Feb. 2016, pp. 1–8.
+[7] L. Breiman, "Random Forests," Machine Learning, vol. 45, no. 1, pp. 5–32, Oct. 2001. doi: 10.1023/A:1010933404324.
+[8] G. Jocher, A. Chaurasia, and J. Qiu, "Ultralytics YOLO," Version 8.0.0, Jan. 2023. [Online]. Available: https://github.com/ultralytics/ultralytics
+[9] C. Lugaresi et al., "MediaPipe: A Framework for Building Perception Pipelines," arXiv preprint arXiv:1906.08172, Jun. 2019. doi: 10.48550/arXiv.1906.08172.
+[10] Anirudha Surabhi Venkata Jagannadha Rao, "Integrated Smart Helmet and Methods and Systems of Controlling Smart Helmet," WIPO Patent WO2020217089A1, Oct. 29, 2020. [Online]. Available: https://patents.google.com/patent/WO2020217089A1/en
+

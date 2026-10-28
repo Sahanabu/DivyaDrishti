@@ -5,6 +5,7 @@ const http = require('http');
 const { resolveLocation } = require('../services/geocodingService');
 const { getIo } = require('../sockets');
 const { uploadVideoToCloud, getLatestIncidentClipOnDisk } = require('../services/cloudVideoService');
+const { generateWhatsAppSosLink } = require('../services/notificationService');
 
 let pendingAlert = null;
 let pendingTimer = null;
@@ -372,11 +373,23 @@ exports.dispatchEmergency = async (req, res) => {
     }
     pendingAlert = null;
 
+    const whatsAppUrl = generateWhatsAppSosLink({
+      phone: process.env.EMERGENCY_CONTACT_NUMBER,
+      riderName: dataToDispatch.rider || 'Sahana',
+      eventType: dataToDispatch.raw?.type || dataToDispatch.aiState?.event || 'IMPACT',
+      placeName: dataToDispatch.telemetry?.placeName || 'Hubballi - Dharwad Bypass Road',
+      lat: dataToDispatch.telemetry?.latitude || 15.4318,
+      lon: dataToDispatch.telemetry?.longitude || 75.6586,
+      speed: dataToDispatch.telemetry?.speed || 0,
+      videoClipUrl: dataToDispatch.videoClipUrl
+    });
+
     await sendEmergencyNotifications(dataToDispatch);
 
     return res.status(200).json({
       success: true,
       dispatched: true,
+      whatsAppUrl,
       message: 'Emergency message sent to contacts and services.'
     });
   } catch (error) {
@@ -390,5 +403,24 @@ exports.getEmergencies = async (req, res) => {
     res.status(200).json({ success: true, data: alerts });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+exports.getWhatsAppSosLink = async (req, res) => {
+  try {
+    const { phone, rider = 'Sahana', type = 'CRASH', placeName, latitude, longitude, speed, videoClipUrl } = req.body;
+    const url = generateWhatsAppSosLink({
+      phone: phone || process.env.EMERGENCY_CONTACT_NUMBER,
+      riderName: rider,
+      eventType: type,
+      placeName: placeName || 'Hubballi - Dharwad Bypass Road',
+      lat: latitude || 15.4318,
+      lon: longitude || 75.6586,
+      speed: speed || 0,
+      videoClipUrl: videoClipUrl || ''
+    });
+    res.status(200).json({ success: true, whatsAppUrl: url });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };

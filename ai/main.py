@@ -22,6 +22,7 @@ from vision.lane_detection import LaneDetector
 from vision.drowsiness_detection import DrowsinessDetector
 from features.feature_engineering import FeatureEngine
 from models.predict import RiskEngine
+from risk.risk_engine import HybridRiskEngine
 
 API_URL = "http://localhost:5000/api/telemetry"
 AI_POST_URL = "http://localhost:5000/api/ai/prediction"
@@ -285,24 +286,33 @@ def generate_synthetic_adas_scene(frame_num, sim_event='normal'):
     cv2.line(frame, (right_x1, 220), (right_x2, 480), (240, 240, 240), 3)
 
     # 5. Oncoming / Lead Vehicle ahead
-    car_y = 260
-    car_x = 320 + int(lane_shift * 0.4)
-    car_w, car_h = 70, 45
+    if sim_event == 'collision':
+        car_y = 330
+        car_x = 320
+        car_w, car_h = 150, 95
+        # Red flashing warning box around lead car
+        cv2.rectangle(frame, (car_x - car_w // 2 - 10, car_y - 10), (car_x + car_w // 2 + 10, car_y + car_h + 10), (0, 0, 255), 2)
+    else:
+        car_y = 260
+        car_x = 320 + int(lane_shift * 0.4)
+        car_w, car_h = 70, 45
     # Car body
     cv2.rectangle(frame, (car_x - car_w // 2, car_y), (car_x + car_w // 2, car_y + car_h), (180, 40, 40), -1)
     cv2.rectangle(frame, (car_x - car_w // 2, car_y), (car_x + car_w // 2, car_y + car_h), (255, 255, 255), 1)
-    # Taillights
-    cv2.circle(frame, (car_x - car_w // 2 + 8, car_y + car_h - 10), 5, (0, 0, 255), -1)
-    cv2.circle(frame, (car_x + car_w // 2 - 8, car_y + car_h - 10), 5, (0, 0, 255), -1)
+    # Taillights (flashing bright red if collision)
+    tail_radius = 8 if sim_event == 'collision' else 5
+    cv2.circle(frame, (car_x - car_w // 2 + 12, car_y + car_h - 12), tail_radius, (0, 0, 255), -1)
+    cv2.circle(frame, (car_x + car_w // 2 - 12, car_y + car_h - 12), tail_radius, (0, 0, 255), -1)
 
     # 6. Picture-in-Picture Driver Face (Upper Right: 480 to 630, y: 15 to 155)
     pip_x, pip_y, pip_w, pip_h = 475, 15, 155, 140
     cv2.rectangle(frame, (pip_x, pip_y), (pip_x + pip_w, pip_y + pip_h), (20, 20, 20), -1)
-    cv2.rectangle(frame, (pip_x, pip_y), (pip_x + pip_w, pip_y + pip_h), (0, 215, 255), 2)
-    cv2.putText(frame, "DRIVER CAM", (pip_x + 8, pip_y + 16), cv2.FONT_HERSHEY_DUPLEX, 0.38, (0, 215, 255), 1)
+    border_color = (0, 0, 255) if sim_event in ('drowsy', 'unconscious', 'distracted') else (0, 215, 255)
+    cv2.rectangle(frame, (pip_x, pip_y), (pip_x + pip_w, pip_y + pip_h), border_color, 2)
+    cv2.putText(frame, "DRIVER CAM", (pip_x + 8, pip_y + 16), cv2.FONT_HERSHEY_DUPLEX, 0.38, border_color, 1)
 
-    # Face Oval
-    face_cx = pip_x + pip_w // 2
+    # Face Oval (Shift center if distracted)
+    face_cx = pip_x + pip_w // 2 + (24 if sim_event == 'distracted' else 0)
     face_cy = pip_y + pip_h // 2 + 10
     cv2.ellipse(frame, (face_cx, face_cy), (38, 48), 0, 0, 360, (200, 160, 140), -1)
 
@@ -334,8 +344,11 @@ def main():
     print("Hotkeys in Video Window:")
     print("  [T] : Toggle Simulation / Real Camera")
     print("  [D] : Trigger Drowsiness Event (Eyes Closed, Low EAR)")
+    print("  [H] : Trigger Head Pose Distraction / Inattention")
+    print("  [C] : Trigger Forward Collision Warning (FCW / TTC)")
     print("  [L] : Trigger Lane Departure Event")
     print("  [I] : Trigger Impact Crash Event (High G-force)")
+    print("  [U] : Trigger Unresponsive Driver (>10s Eye Closure SOS)")
     print("  [N] : Reset to Normal Driving State")
     print("  [Q] : Exit Pipeline\n")
 
@@ -354,6 +367,7 @@ def main():
         drowsy_detector = DrowsinessDetector()
         feature_engine = FeatureEngine()
         risk_engine = RiskEngine()
+        hybrid_engine = HybridRiskEngine(ml_engine=risk_engine)
     except Exception as e:
         print(f"Failed to load AI models: {e}")
         sys.exit(1)
@@ -436,6 +450,18 @@ def main():
                 drowsy_features["eye_closed"] = True
                 drowsy_features["eye_closed_duration"] = 10.5
                 drowsy_features["drowsiness_state"] = "UNCONSCIOUS_CRITICAL"
+            elif sim_event == 'collision':
+                main.sim_drowsy_start = None
+                obj_features["forward_collision_warning"] = True
+                obj_features["min_distance_m"] = 3.2
+                obj_features["time_to_collision"] = 1.4
+                obj_features["closest_object"] = "car"
+            elif sim_event == 'distracted':
+                main.sim_drowsy_start = None
+                drowsy_features["distracted"] = True
+                drowsy_features["distraction_duration"] = 3.2
+                drowsy_features["head_yaw"] = 38.0
+                drowsy_features["drowsiness_state"] = "DISTRACTED"
             elif sim_event == 'lane':
                 main.sim_drowsy_start = None
                 lane_features["lane_detected"] = True
@@ -449,6 +475,8 @@ def main():
                 main.sim_drowsy_start = None
                 drowsy_features["ear"] = 0.28
                 drowsy_features["drowsiness_state"] = "NORMAL"
+                drowsy_features["distracted"] = False
+                obj_features["forward_collision_warning"] = False
                 lane_features["lane_detected"] = True
                 lane_features["lane_deviation"] = 0.12
                 lane_features["lane_departure"] = False
@@ -491,18 +519,22 @@ def main():
         fused_vector.update(esp32_vector)
 
         # ==========================================
-        # 3. ML ENGINE
+        # 3. ML & HYBRID RISK ENGINE
         # ==========================================
         if sim_mode and sim_event == 'impact':
-            event, risk, confidence = "IMPACT", "CRITICAL", 96.0
+            event, risk, confidence = "IMPACT", "CRITICAL", 98.0
         elif sim_mode and sim_event == 'unconscious':
-            event, risk, confidence = "UNCONSCIOUS_DROWSINESS", "CRITICAL", 98.0
+            event, risk, confidence = "UNCONSCIOUS_DROWSINESS", "CRITICAL", 99.0
+        elif sim_mode and sim_event == 'collision':
+            event, risk, confidence = "FORWARD_COLLISION_WARNING", "HIGH", 95.0
+        elif sim_mode and sim_event == 'distracted':
+            event, risk, confidence = "DISTRACTED", "HIGH", 92.0
         elif sim_mode and sim_event == 'drowsy':
             event, risk, confidence = "DROWSY", "HIGH", 94.0
         elif sim_mode and sim_event == 'lane':
             event, risk, confidence = "LANE_DEVIATION", "MEDIUM", 89.0
         else:
-            raw_event, raw_risk, raw_confidence = risk_engine.predict(fused_vector)
+            raw_event, raw_risk, raw_confidence, rationale = hybrid_engine.evaluate(fused_vector)
             if raw_event != "UNKNOWN":
                 recent_events.append(raw_event)
                 recent_risks.append(raw_risk)
@@ -621,24 +653,32 @@ def main():
         draw_text(mode_label, 58, mode_color, 0.45, 1)
 
         # --- DRIVER STATE ---
-        draw_text("[ DRIVER STATE ]", 90, (150, 150, 150), 0.5, 1)
-        draw_text(f"Eye EAR : {fused_vector.get('ear', 1.0):.2f}", 115)
+        draw_text("[ DRIVER STATE ]", 85, (150, 150, 150), 0.48, 1)
+        draw_text(f"Eye EAR : {fused_vector.get('ear', 1.0):.2f}", 105)
         d_state = fused_vector.get('drowsiness_state', 'NORMAL')
-        d_color = (0, 255, 0) if d_state == "NORMAL" else (0, 0, 255)
-        draw_text(f"Status  : {d_state}", 140, d_color, 0.55, 2)
+        d_color = (0, 255, 0) if d_state == "NORMAL" else ((0, 165, 255) if d_state == "DISTRACTED" else (0, 0, 255))
+        draw_text(f"Status  : {d_state}", 125, d_color, 0.52, 2)
+        head_yaw_v = fused_vector.get('head_yaw', 0.0)
+        head_pitch_v = fused_vector.get('head_pitch', 0.0)
+        draw_text(f"HeadPose: Y:{head_yaw_v:.0f}° P:{head_pitch_v:.0f}°", 145, (200, 200, 200), 0.42, 1)
         if eye_duration > 0.0:
             sos_timer_color = (0, 165, 255) if eye_duration < 10.0 else (0, 0, 255)
-            draw_text(f"Closed  : {eye_duration:.1f}s / 10s SOS", 162, sos_timer_color, 0.45, 1)
+            draw_text(f"Closed  : {eye_duration:.1f}s / 10s SOS", 165, sos_timer_color, 0.42, 1)
 
-        # --- ENVIRONMENT ---
-        draw_text("[ ENVIRONMENT ]", 185, (150, 150, 150), 0.5, 1)
-        draw_text(f"Objects : {fused_vector.get('object_count', 0)}", 210)
-        if fused_vector.get('lane_detected', False):
+        # --- ENVIRONMENT & ADAS ---
+        draw_text("[ ENVIRONMENT & ADAS ]", 190, (150, 150, 150), 0.48, 1)
+        min_dist_v = fused_vector.get('min_distance_m', float('inf'))
+        ttc_v = fused_vector.get('time_to_collision', float('inf'))
+        dist_str = f"{min_dist_v:.1f}m" if math.isfinite(min_dist_v) else "Clear"
+        draw_text(f"Closest : {fused_vector.get('closest_object', 'none')} ({dist_str})", 212)
+        if fused_vector.get('forward_collision_warning'):
+            draw_text(f"FCW: BRAKE NOW (TTC {ttc_v:.1f}s)", 232, (0, 0, 255), 0.48, 2)
+        elif fused_vector.get('lane_detected', False):
             dev = fused_vector.get('lane_deviation', 0.0)
             dev_color = (0, 0, 255) if fused_vector.get('lane_departure') else (255, 255, 255)
-            draw_text(f"Lane Dev: {dev:.2f}m", 235, dev_color)
+            draw_text(f"Lane Dev: {dev:.2f}m", 232, dev_color)
         else:
-            draw_text(f"Lane Dev: N/A", 235, (150, 150, 150))
+            draw_text("Lane Dev: Optimal", 232, (150, 150, 150))
 
         # --- TELEMETRY ---
         draw_text("[ ESP32 SENSORS ]", 280, (150, 150, 150), 0.5, 1)
@@ -667,10 +707,10 @@ def main():
             cv2.putText(display_frame, "3. Press 'T' for SIMULATION", (350, 275), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0, 255, 0), 2)
             cv2.putText(display_frame, "Keys: [D]Drowsy [L]Lane [I]Crash", (350, 310), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 0), 1)
         elif sim_mode:
-            cv2.rectangle(display_frame, (335, 420), (625, 470), (20, 25, 40), -1)
-            cv2.rectangle(display_frame, (335, 420), (625, 470), (0, 215, 255), 1)
-            cv2.putText(display_frame, "KEYS: [D] Drowsy  [L] Lane", (345, 442), cv2.FONT_HERSHEY_SIMPLEX, 0.42, (0, 255, 255), 1)
-            cv2.putText(display_frame, "      [I] Impact  [N] Normal", (345, 460), cv2.FONT_HERSHEY_SIMPLEX, 0.42, (0, 255, 255), 1)
+            cv2.rectangle(display_frame, (335, 410), (630, 475), (20, 25, 40), -1)
+            cv2.rectangle(display_frame, (335, 410), (630, 475), (0, 215, 255), 1)
+            cv2.putText(display_frame, "KEYS: [D]Drowsy [C]FCW [H]Distract", (345, 432), cv2.FONT_HERSHEY_SIMPLEX, 0.40, (0, 255, 255), 1)
+            cv2.putText(display_frame, "      [L]Lane   [I]Crash [U]SOS [N]Norm", (345, 452), cv2.FONT_HERSHEY_SIMPLEX, 0.40, (0, 255, 255), 1)
 
         # Encode to JPEG for the dashboard stream
         global latest_jpeg
@@ -703,6 +743,16 @@ def main():
                 sim_event = 'drowsy'
                 sim_event_timer = 0
                 print("[SIMULATION TRIGGER] Drowsiness event triggered!")
+            elif key == ord('c') or key == ord('C'):
+                sim_mode = True
+                sim_event = 'collision'
+                sim_event_timer = 0
+                print("[SIMULATION TRIGGER] Forward Collision Warning (FCW / TTC) event triggered!")
+            elif key == ord('h') or key == ord('H'):
+                sim_mode = True
+                sim_event = 'distracted'
+                sim_event_timer = 0
+                print("[SIMULATION TRIGGER] Head Pose Distraction / Inattention event triggered!")
             elif key == ord('l') or key == ord('L'):
                 sim_mode = True
                 sim_event = 'lane'

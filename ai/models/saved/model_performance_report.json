@@ -1,0 +1,41 @@
+{
+  "dataset_samples": 10000,
+  "features": [
+    "ear",
+    "eye_closed_duration",
+    "blink_rate",
+    "lane_deviation",
+    "lane_departure",
+    "object_count",
+    "accel_magnitude",
+    "pitch",
+    "roll",
+    "gyro_magnitude",
+    "speed",
+    "mq3"
+  ],
+  "event_model": {
+    "accuracy": 100.0,
+    "f1_score": 1.0,
+    "cv_accuracy_mean": 100.0,
+    "feature_importance": {
+      "gyro_magnitude": 0.16,
+      "accel_magnitude": 0.1493,
+      "lane_deviation": 0.1196,
+      "roll": 0.1185,
+      "lane_departure": 0.1141,
+      "pitch": 0.1004,
+      "eye_closed_duration": 0.0897,
+      "ear": 0.0782,
+      "speed": 0.0686,
+      "mq3": 0.0008,
+      "blink_rate": 0.0007,
+      "object_count": 0.0001
+    }
+  },
+  "risk_model": {
+    "accuracy": 100.0,
+    "f1_score": 1.0,
+    "cv_accuracy_mean": 100.0
+  }
+}

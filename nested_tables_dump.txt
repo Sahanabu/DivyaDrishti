@@ -1,0 +1,35 @@
+=== ROW 10:  has 1 nested tables ===
+Nested table 0: rows=7, cols=6
+  Activity | Month 1 | Month 2 | Month 3 | Month 4 | Month 5
+  Literature Survey | ✔️ | ✔️ |  |  | 
+  Design | ✔️ | ✔️ |  |  | 
+  Development |  | ✔️ | ✔️ | ✔️ | 
+  Testing |  |  | ✔️ | ✔️ | 
+  Validation |  |  |  | ✔️ | ✔️
+  Final Report |  |  |  | ✔️ | ✔️
+=== ROW 11:  has 1 nested tables ===
+Nested table 0: rows=6, cols=2
+  1. Laboratory | Available
+  2. Equipment | NONE
+  3. Software | Available
+  4. Instruments | NONE
+  5. Workshop | NONE
+  6. Institutional facilities | Available
+=== ROW 13:  has 1 nested tables ===
+Nested table 0: rows=9, cols=2
+  Item | Estimated Cost (₹)
+  Equipment / Components | 33139
+  Consumables | 1200
+  Fabrication | 1800
+  Software / Cloud Services | 2000
+  Field Survey / Data Collection | 1500
+  Testing / Analysis | 1200
+  Miscellaneous | 3000
+  Total | 43839
+=== ROW 16:  has 1 nested tables ===
+Nested table 0: rows=5, cols=5
+  Sl. No. | Name of Student (Block Letters) | USN / Registration No. | Signature | Date
+  1. | SAHANA BASAVARAJ ULLAGADDI | 2KA23CS047 |  | 
+  2. | RAKSHITA PATIL | 2KA23CS040 |  | 
+  3. | SNEHA DAVAGI | 2KA23CS050 |  | 
+  4. | RAGHAVENDRASING BALAJISING HAJERI | 2KA23CS037 |  | 
